@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Библиотека скиллов</title>
+<meta name="description" content="Каталог скиллов Claude Code и проверенных связок между ними.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fbf4ea; --bg2: #f5e9d8; --surface: #fffaf3; --ink: #3a2a1f; --muted: #8b7361;
+  --line: #ead9c3; --accent: #c8693b; --accent-soft: #f6dfcb; --glow: rgba(200,105,59,.14);
+  --shadow: 0 1px 2px rgba(90,55,30,.06), 0 8px 24px rgba(90,55,30,.07);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1d1713; --bg2: #251d17; --surface: #2a211b; --ink: #f3e5d3; --muted: #b59d86;
+    --line: #3d3027; --accent: #e8905f; --accent-soft: #4a3122; --glow: rgba(232,144,95,.12);
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1d1713; --bg2: #251d17; --surface: #2a211b; --ink: #f3e5d3; --muted: #b59d86;
+  --line: #3d3027; --accent: #e8905f; --accent-soft: #4a3122; --glow: rgba(232,144,95,.12);
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.55 Manrope, system-ui, sans-serif;
+  background-image: radial-gradient(1200px 500px at 85% -10%, var(--glow), transparent 60%),
+                    radial-gradient(900px 400px at -10% 20%, var(--glow), transparent 60%);
+  background-attachment: fixed;
+}
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+h1, h2, h3 { font-family: Fraunces, Georgia, serif; font-weight: 600; letter-spacing: -.01em; margin: 0; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em; }
+
+/* top bar */
+.bar { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+.logo { font-family: Fraunces, serif; font-weight: 700; font-size: 20px; display: flex; gap: 10px; align-items: center; }
+.logo span { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: var(--accent); color: #fff8f0; font-size: 18px; }
+.nav { display: flex; gap: 6px; align-items: center; }
+.nav a { color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 999px; font-weight: 600; font-size: 14px; }
+.nav a:hover { background: var(--bg2); color: var(--ink); }
+.theme-btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 36px; height: 36px; border-radius: 999px; cursor: pointer; font-size: 16px; }
+
+/* hero */
+.hero { padding: 48px 0 40px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: end; }
+.hero h1 { font-size: clamp(40px, 6vw, 68px); line-height: 1.02; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p { color: var(--muted); font-size: 18px; max-width: 520px; margin: 18px 0 0; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px; box-shadow: var(--shadow); }
+.stat b { display: block; font-family: Fraunces, serif; font-size: 34px; line-height: 1.1; color: var(--accent); }
+.stat small { color: var(--muted); font-weight: 600; }
+
+section { padding: 36px 0; }
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.sec-head h2 { font-size: 32px; }
+.sec-head p { color: var(--muted); margin: 0; }
+
+/* favorites */
+.favs { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+.fav { flex: 0 0 auto; display: flex; align-items: center; gap: 12px; padding: 12px 16px 12px 12px; border-radius: 18px;
+  background: var(--surface); border: 1px solid var(--line); cursor: pointer; box-shadow: var(--shadow); transition: transform .15s; color: var(--ink); font: inherit; }
+.fav:hover { transform: translateY(-2px); }
+.fav .n { display: grid; place-items: center; min-width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-family: Fraunces, serif; }
+.fav .t { text-align: left; font-weight: 700; font-size: 14px; }
+.fav .t small { display: block; font-weight: 500; color: var(--muted); }
+
+/* combos */
+.combos { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.combo { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 20px; box-shadow: var(--shadow); }
+.combo h3 { font-size: 20px; display: flex; gap: 10px; align-items: center; }
+.combo h3 i { font-style: normal; display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--bg2); font-size: 17px; }
+.combo p { color: var(--muted); margin: 6px 0 14px; font-size: 14px; }
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.step { border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 5px 10px; border-radius: 10px; font: 600 12.5px/1.3 ui-monospace, Menlo, monospace; cursor: pointer; transition: background .15s, border-color .15s; }
+.step:hover { border-color: var(--accent); background: var(--accent-soft); }
+.step.hot { border-color: var(--accent); }
+.arrow { color: var(--accent); font-weight: 700; font-size: 13px; }
+
+/* library */
+.tools { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+.search { width: 100%; padding: 14px 18px 14px 46px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface) no-repeat 16px center;
+  color: var(--ink); font: inherit; font-size: 16px; box-shadow: var(--shadow); outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%23b08a6c' stroke-width='2'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='M13 13l4 4'/%3E%3C/svg%3E"); }
+.search:focus { border-color: var(--accent); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 7px 14px; border-radius: 999px; font: 600 13.5px Manrope, sans-serif; cursor: pointer; }
+.chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip small { opacity: .6; margin-left: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.card { position: relative; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px 16px 14px;
+  cursor: pointer; color: var(--ink); font: inherit; transition: transform .15s, box-shadow .15s, border-color .15s; display: flex; flex-direction: column; gap: 8px; }
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+.card .top { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.card .cat { font-size: 12px; font-weight: 700; color: var(--muted); }
+.card .name { font: 700 14.5px/1.3 ui-monospace, Menlo, monospace; word-break: break-word; }
+.card .desc { font-size: 14px; color: var(--muted); }
+.badge { font-size: 11.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.links { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: auto; }
+.empty { color: var(--muted); padding: 30px 0; text-align: center; }
+
+/* security */
+.sec-box { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 24px; box-shadow: var(--shadow); }
+.sec-list { columns: 3 260px; column-gap: 24px; margin-top: 16px; font: 13px/1.9 ui-monospace, Menlo, monospace; color: var(--muted); }
+.sec-list div { break-inside: avoid; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.more { margin-top: 14px; }
+
+/* modal */
+.overlay { position: fixed; inset: 0; background: rgba(40,25,15,.4); backdrop-filter: blur(4px); display: none; place-items: center; padding: 16px; z-index: 10; }
+.overlay.open { display: grid; }
+.modal { background: var(--surface); border-radius: 26px; max-width: 520px; width: 100%; padding: 28px; box-shadow: 0 30px 80px rgba(40,20,10,.3); border: 1px solid var(--line); max-height: 90vh; overflow: auto; }
+.modal h3 { font: 700 22px/1.25 ui-monospace, Menlo, monospace; word-break: break-word; margin: 8px 0 12px; }
+.modal .desc { font-size: 16px; }
+.cmd { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--bg); border: 1px dashed var(--line); border-radius: 12px; padding: 10px 14px; margin: 16px 0; }
+.cmd button, .close { border: 0; background: var(--accent); color: #fff8f0; padding: 6px 12px; border-radius: 10px; font: 700 13px Manrope, sans-serif; cursor: pointer; }
+.close { background: var(--bg2); color: var(--ink); float: right; }
+.modal h4 { margin: 18px 0 8px; font-size: 14px; color: var(--muted); }
+
+footer { color: var(--muted); font-size: 14px; padding: 40px 0 60px; text-align: center; }
+
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; padding-top: 24px; gap: 24px; }
+  .nav a { display: none; }
+  .combos { grid-template-columns: 1fr; }
+  .sec-head h2 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <div class="logo"><span>✦</span> Библиотека скиллов</div>
+    <nav class="nav">
+      <a href="#combos">Связки</a><a href="#library">Каталог</a><a href="#security">Безопасность</a>
+      <button class="theme-btn" id="theme" title="Тема">◐</button>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Скиллы, которые <em>работают</em> вместе</h1>
+      <p>Всё, что установлено у меня в Claude Code: от ежедневных инструментов до больших коллекций — и проверенные цепочки, в которых они раскрываются.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section>
+    <div class="sec-head"><h2>Любимое</h2><p>Скиллы, которые реально вызывались в сессиях</p></div>
+    <div class="favs" id="favs"></div>
+  </section>
+
+  <section id="combos">
+    <div class="sec-head"><h2>Связки</h2><p>Нажмите на шаг, чтобы открыть скилл</p></div>
+    <div class="combos" id="comboList"></div>
+  </section>
+
+  <section id="library">
+    <div class="sec-head"><h2>Каталог</h2><p id="count"></p></div>
+    <div class="tools">
+      <input class="search" id="q" placeholder="Найти скилл: дизайн, тесты, seo, pdf…" autocomplete="off">
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="security">
+    <div class="sec-head"><h2>🛡 Коллекция по кибербезопасности</h2><p id="secCount"></p></div>
+    <div class="sec-box">
+      <p style="margin:0 0 14px;color:var(--muted)">Большой справочный пак: форензика, threat hunting, пентест, облака, AD, SOC. Живёт отдельно, чтобы не шуметь в основном каталоге.</p>
+      <input class="search" id="sq" placeholder="Поиск по коллекции: kerberos, ransomware, splunk…" autocomplete="off">
+      <div class="chips" id="secChips" style="margin-top:14px"></div>
+      <div class="sec-list" id="secList"></div>
+      <button class="chip more" id="secMore">Показать все</button>
+    </div>
+  </section>
+
+  <footer>Собрано из <code>~/.claude/skills</code> и плагинов · вызов любого скилла — <code>/имя</code></footer>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+
+<script src="data.js"></script>
+<script src="security.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const catById = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
+const skillById = Object.fromEntries(SKILLS.map(s => [s.id, s]));
+const combosOf = id => COMBOS.filter(c => c.steps.includes(id));
+const plural = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
+
+// theme
+try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+$("#theme").onclick = () => {
+  const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  const next = dark ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("theme", next); } catch {}
+};
+
+// stats
+const usedSkills = SKILLS.filter(s => s.used).sort((a, b) => b.used - a.used);
+const total = SKILLS.length + SECURITY.length;
+$("#stats").innerHTML = [
+  [total, "скиллов на ПК"], [usedSkills.length, "в активной работе"],
+  [COMBOS.length, "проверенных связок"], [CATEGORIES.length + 1, "категорий"],
+].map(([n, t]) => `<div class="stat"><b>${n}</b><small>${t}</small></div>`).join("");
+
+// favorites
+$("#favs").innerHTML = usedSkills.map(s =>
+  `<button class="fav" data-id="${esc(s.id)}"><span class="n">${s.used}</span><span class="t">${esc(s.id.replace(/^.*:/, ""))}<small>${catById[s.cat].emoji} ${catById[s.cat].name}</small></span></button>`).join("");
+
+// combos
+$("#comboList").innerHTML = COMBOS.map(c => `
+  <div class="combo">
+    <h3><i>${c.icon}</i>${esc(c.name)}</h3>
+    <p>${esc(c.hint)}</p>
+    <div class="chain">${c.steps.map(id =>
+      `<button class="step${skillById[id]?.used ? " hot" : ""}" data-id="${esc(id)}">${esc(id.replace(/^.*:/, ""))}</button>`).join('<span class="arrow">→</span>')}</div>
+  </div>`).join("");
+
+// library
+let cat = "all";
+function renderChips() {
+  const counts = {}; SKILLS.forEach(s => counts[s.cat] = (counts[s.cat] || 0) + 1);
+  $("#chips").innerHTML = [`<button class="chip${cat === "all" ? " on" : ""}" data-cat="all">Все<small>${SKILLS.length}</small></button>`]
+    .concat(CATEGORIES.map(c => `<button class="chip${cat === c.id ? " on" : ""}" data-cat="${c.id}">${c.emoji} ${c.name}<small>${counts[c.id]}</small></button>`)).join("");
+}
+function renderGrid() {
+  const q = $("#q").value.trim().toLowerCase();
+  const list = SKILLS.filter(s => (cat === "all" || s.cat === cat) && (!q || (s.id + " " + s.d + " " + catById[s.cat].name).toLowerCase().includes(q)))
+    .sort((a, b) => (b.used || 0) - (a.used || 0));
+  $("#count").textContent = `${list.length} ${plural(list.length, "скилл", "скилла", "скиллов")}`;
+  $("#grid").innerHTML = list.length ? list.map(s => {
+    const n = combosOf(s.id).length, c = catById[s.cat];
+    return `<button class="card" data-id="${esc(s.id)}">
+      <div class="top"><span class="cat">${c.emoji} ${c.name}</span>${s.used ? `<span class="badge">★ ${s.used}×</span>` : ""}</div>
+      <div class="name">${esc(s.id)}</div>
+      <div class="desc">${esc(s.d)}</div>
+      ${n ? `<div class="links">🔗 в ${n} ${plural(n, "связке", "связках", "связках")}</div>` : ""}
+    </button>`;
+  }).join("") : `<div class="empty">Ничего не нашлось — попробуйте другое слово</div>`;
+}
+$("#chips").onclick = e => { const b = e.target.closest("[data-cat]"); if (!b) return; cat = b.dataset.cat; renderChips(); renderGrid(); };
+$("#q").oninput = renderGrid;
+renderChips(); renderGrid();
+
+// security collection
+const verbs = {}; SECURITY.forEach(s => { const v = s.split("-")[0]; verbs[v] = (verbs[v] || 0) + 1; });
+const topVerbs = Object.entries(verbs).sort((a, b) => b[1] - a[1]).slice(0, 10);
+let verb = "all", showAll = false;
+$("#secCount").textContent = `${SECURITY.length} ${plural(SECURITY.length, "скилл", "скилла", "скиллов")}`;
+function renderSec() {
+  $("#secChips").innerHTML = [`<button class="chip${verb === "all" ? " on" : ""}" data-v="all">Все</button>`]
+    .concat(topVerbs.map(([v, n]) => `<button class="chip${verb === v ? " on" : ""}" data-v="${v}">${v}<small>${n}</small></button>`)).join("");
+  const q = $("#sq").value.trim().toLowerCase();
+  const list = SECURITY.filter(s => (verb === "all" || s.startsWith(verb + "-")) && (!q || s.includes(q)));
+  const shown = showAll || q ? list : list.slice(0, 60);
+  $("#secList").innerHTML = shown.map(s => `<div title="/${s}">${s}</div>`).join("") || `<div>Ничего не нашлось</div>`;
+  $("#secMore").style.display = shown.length < list.length ? "" : "none";
+  $("#secMore").textContent = `Показать все ${list.length}`;
+}
+$("#secChips").onclick = e => { const b = e.target.closest("[data-v]"); if (!b) return; verb = b.dataset.v; renderSec(); };
+$("#sq").oninput = renderSec;
+$("#secMore").onclick = () => { showAll = true; renderSec(); };
+renderSec();
+
+// modal
+function openSkill(id) {
+  const s = skillById[id]; if (!s) return;
+  const c = catById[s.cat], combos = combosOf(id);
+  const cmd = "/" + id;
+  $("#modal").innerHTML = `
+    <button class="close" id="x">Закрыть</button>
+    <span class="cat" style="color:var(--muted);font-weight:700;font-size:13px">${c.emoji} ${c.name}</span>
+    <h3>${esc(id)}</h3>
+    <div class="desc">${esc(s.d)}</div>
+    <div class="cmd"><code>${esc(cmd)}</code><button id="copy">Копировать</button></div>
+    ${s.used ? `<div class="badge" style="display:inline-block">★ вызывался ${s.used} ${plural(s.used, "раз", "раза", "раз")}</div>` : ""}
+    ${combos.length ? `<h4>Входит в связки</h4>${combos.map(cb => `
+      <div style="margin-bottom:12px"><b>${cb.icon} ${esc(cb.name)}</b>
+      <div class="chain" style="margin-top:6px">${cb.steps.map(x => `<button class="step${x === id ? " hot" : ""}" data-id="${esc(x)}">${esc(x.replace(/^.*:/, ""))}</button>`).join('<span class="arrow">→</span>')}</div></div>`).join("")}` : ""}`;
+  $("#overlay").classList.add("open");
+  $("#x").onclick = close;
+  $("#copy").onclick = e => { navigator.clipboard?.writeText(cmd); e.target.textContent = "Скопировано ✓"; };
+}
+const close = () => $("#overlay").classList.remove("open");
+$("#overlay").onclick = e => { if (e.target.id === "overlay") close(); };
+addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+document.addEventListener("click", e => { const b = e.target.closest("[data-id]"); if (b) openSkill(b.dataset.id); });
+</script>
+</body>
+</html>
