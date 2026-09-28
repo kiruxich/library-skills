@@ -58,24 +58,26 @@ window.PACKS = [
 ];
 
 // Связки — какие наборы и в каком порядке складываются под задачу.
-// Шаг: [id набора, команда].
+// Шаг: [id набора, роль набора в этой связке].
 window.COMBOS = [
   { name: "Старт в проекте", icon: "☕", hint: "Сориентироваться за минуту, не читая весь код",
-    steps: [["claude-mem", "mem-search"], ["graphify", "graphify"], ["claude-mem", "smart-explore"]] },
-  { name: "От идеи до кода", icon: "🌱", hint: "Путь фичи: допрос → спека → тикеты → TDD → ревью",
-    steps: [["graphify", "graphify"], ["mattpocock", "grilling"], ["mattpocock", "to-spec"], ["mattpocock", "to-tickets"], ["mattpocock", "tdd"], ["mattpocock", "code-review"], ["claude-code", "run"]] },
+    steps: [["claude-mem", "вспомнить прошлые сессии"], ["graphify", "карта кода"]] },
+  { name: "От идеи до кода", icon: "🌱", hint: "Путь фичи от сырой мысли до работающего приложения",
+    steps: [["graphify", "понять контекст"], ["mattpocock", "допрос, спека, TDD, ревью"], ["claude-code", "запустить и проверить"]] },
   { name: "Красивый сайт", icon: "🎨", hint: "Вкус, картинки, проверка в браузере",
-    steps: [["taste", "design-taste-frontend"], ["anthropics", "frontend-design"], ["kie", "kie-image-gen"], ["anthropics", "webapp-testing"], ["claude-code", "run"]] },
+    steps: [["taste", "дизайн-направление"], ["kie", "картинки"], ["anthropics", "вёрстка и тесты"], ["claude-code", "запуск"]] },
   { name: "Запуск сайта в РФ", icon: "🚀", hint: "Юридически чисто и видно в поиске",
-    steps: [["legit", "check"], ["legit", "fix"], ["legit", "generate-policy"], ["seo", "seo-audit"], ["seo", "seo-plan"]] },
+    steps: [["legit", "152-ФЗ, реклама, политика ПДн"], ["seo", "аудит и план продвижения"]] },
   { name: "Живые тексты", icon: "📜", hint: "От сырых мыслей до статьи без следов AI",
-    steps: [["mattpocock", "writing-fragments"], ["mattpocock", "writing-shape"], ["anthropic-skills", "storytelling-corrector"], ["anthropic-skills", "antidetector"]] },
+    steps: [["mattpocock", "фрагменты → статья"], ["anthropic-skills", "сторителлинг и антидетектор"]] },
   { name: "Бренд и визуал", icon: "✨", hint: "Айдентика и иллюстрации",
-    steps: [["taste", "brandkit"], ["kie", "kie-image-gen"], ["anthropics", "canvas-design"]] },
+    steps: [["taste", "брендбук"], ["kie", "генерация"], ["anthropics", "постеры и темы"]] },
   { name: "Документы", icon: "📑", hint: "Прочитать исходники и собрать итоговый файл",
-    steps: [["anthropics", "pdf"], ["anthropics", "xlsx"], ["anthropics", "doc-coauthoring"], ["anthropics", "docx"]] },
+    steps: [["anthropics", "PDF, Excel, Word, слайды"], ["anthropic-skills", "шлифовка текста"]] },
   { name: "Большая работа", icon: "🗺", hint: "Когда задача не влезает в одну сессию",
-    steps: [["mattpocock", "wayfinder"], ["mattpocock", "to-tickets"], ["claude-mem", "do"], ["mattpocock", "handoff"]] },
+    steps: [["mattpocock", "карта решений и тикеты"], ["claude-mem", "исполнение фазами"], ["graphify", "актуальный граф"]] },
   { name: "Автопилот", icon: "⏰", hint: "Регулярные задачи без участия",
-    steps: [["claude-code", "update-config"], ["claude-code", "schedule"], ["claude-mem", "standup"]] },
+    steps: [["claude-code", "хуки и расписание"], ["claude-mem", "стендапы и отчёты"]] },
+  { name: "Безопасность проекта", icon: "🛡", hint: "Проверить код и инфраструктуру перед релизом",
+    steps: [["graphify", "где что лежит"], ["cyber", "аудит и харднинг"], ["claude-code", "security-review"]] },
 ];
