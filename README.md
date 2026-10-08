@@ -1,9 +1,14 @@
-# Библиотека скиллов
+# Библиотека
 
-Тёплый каталог скиллов Claude Code, установленных на моём ПК, и проверенных связок между ними.
+Три раздела в одном сайте (Next.js 16 · React · TypeScript · Tailwind 4 · Motion):
 
-- `index.html` — сайт (статический, без сборки)
-- `data.js` — скиллы, категории, связки (правьте здесь)
-- `security.js` — список коллекции по кибербезопасности
+- `/` — **Скиллы**: наборы скиллов Claude Code и связки между ними. Данные — `data/skills.ts`, команды — `data/commands.json`.
+- `/components` — **Компоненты**: UI-компоненты, повторённые по референсам. Код — `components/library/*.tsx`, реестр — `data/components.ts`.
+- `/prompts` — **Промпты**: сохранённые промпты. Постоянные — `data/prompts.ts`, добавленные в браузере хранятся в localStorage (есть экспорт/импорт JSON).
 
-Деплой: Vercel, статический хостинг.
+```bash
+npm install
+npm run dev   # http://localhost:4321
+```
+
+Деплой: Vercel (`vercel.json` → framework nextjs).

@@ -1,0 +1,469 @@
+// Библиотека наборов скиллов. Один набор = один репозиторий или плагин; команды внутри — в commands.json.
+// used — сколько раз команды набора реально вызывались в прошлых сессиях.
+export type Category = { id: string; name: string; emoji: string };
+export type Pack = {
+  id: string; name: string; src: string | null; cat: string; icon: string;
+  d: string; key: string[]; used?: number; usedCmds?: Record<string, number>;
+  plugin?: boolean; builtin?: boolean; own?: boolean; installed?: boolean;
+};
+// Шаг связки: [id набора, роль набора в этой связке].
+export type Combo = { name: string; icon: string; hint: string; steps: [string, string][] };
+
+export const CATEGORIES: Category[] = [
+  {
+    "id": "memory",
+    "name": "Память и контекст",
+    "emoji": "🧭"
+  },
+  {
+    "id": "dev",
+    "name": "Процесс разработки",
+    "emoji": "🛠"
+  },
+  {
+    "id": "design",
+    "name": "Дизайн и визуал",
+    "emoji": "🎨"
+  },
+  {
+    "id": "content",
+    "name": "Тексты и документы",
+    "emoji": "✍️"
+  },
+  {
+    "id": "growth",
+    "name": "SEO и продвижение",
+    "emoji": "🔎"
+  },
+  {
+    "id": "law",
+    "name": "Право РФ",
+    "emoji": "⚖️"
+  },
+  {
+    "id": "security",
+    "name": "Безопасность",
+    "emoji": "🛡"
+  }
+];
+
+export const PACKS: Pack[] = [
+  {
+    "id": "graphify",
+    "name": "Graphify",
+    "src": "Graphify-Labs/graphify",
+    "cat": "memory",
+    "icon": "🕸",
+    "used": 23,
+    "usedCmds": {
+      "graphify": 23
+    },
+    "d": "Превращает проект в граф знаний: архитектура, связи между файлами, «где живёт X». Отвечает по графу вместо чтения кода подряд — главный способ сориентироваться в начале сессии.",
+    "key": [
+      "graphify"
+    ]
+  },
+  {
+    "id": "claude-mem",
+    "name": "claude-mem",
+    "src": "thedotmack/claude-mem",
+    "cat": "memory",
+    "icon": "🧠",
+    "plugin": true,
+    "d": "Пассивная память между сессиями: сжимает каждую сессию и сама подмешивает нужный контекст в новые. Плюс поиск по прошлому, планы, стендапы и отчёты.",
+    "key": [
+      "mem-search",
+      "learn-codebase",
+      "smart-explore",
+      "make-plan",
+      "do",
+      "standup"
+    ]
+  },
+  {
+    "id": "mattpocock",
+    "name": "Matt Pocock Skills",
+    "src": "mattpocock/skills",
+    "cat": "dev",
+    "icon": "🌱",
+    "used": 1,
+    "usedCmds": {
+      "grilling": 1
+    },
+    "d": "Полный инженерный цикл: допросить идею, превратить в спеку и тикеты, реализовать через TDD, отревьюить. Плюс архитектура «глубоких модулей» и трёхфазное письмо.",
+    "key": [
+      "grilling",
+      "to-spec",
+      "to-tickets",
+      "implement",
+      "tdd",
+      "code-review",
+      "wayfinder",
+      "handoff"
+    ]
+  },
+  {
+    "id": "claude-code",
+    "name": "Встроенные Claude Code",
+    "src": null,
+    "cat": "dev",
+    "icon": "⚙️",
+    "builtin": true,
+    "used": 7,
+    "usedCmds": {
+      "run": 3,
+      "schedule": 3,
+      "update-config": 1
+    },
+    "d": "Команды, которые идут вместе с Claude Code: запустить приложение, поставить агента по расписанию, настроить хуки и права, упростить код.",
+    "key": [
+      "run",
+      "schedule",
+      "update-config",
+      "loop",
+      "simplify"
+    ]
+  },
+  {
+    "id": "find-skills",
+    "name": "Find Skills",
+    "src": "vercel-labs/skills",
+    "cat": "dev",
+    "icon": "🧩",
+    "used": 1,
+    "usedCmds": {
+      "find-skills": 1
+    },
+    "d": "Ищет и ставит новые скиллы под задачу «как сделать X». Через него же ставятся остальные наборы: npx skills add автор/репо.",
+    "key": [
+      "find-skills"
+    ]
+  },
+  {
+    "id": "taste",
+    "name": "Taste Skill",
+    "src": "Leonxlnx/taste-skill",
+    "cat": "design",
+    "icon": "🎨",
+    "d": "Анти-«AI-slop» для интерфейсов: премиальный вкус, стили на выбор (минимализм, брутализм, high-end), редизайн существующих сайтов, макет-картинка → код, брендбуки.",
+    "key": [
+      "design-taste-frontend",
+      "high-end-visual-design",
+      "minimalist-ui",
+      "redesign-existing-projects",
+      "image-to-code",
+      "brandkit"
+    ]
+  },
+  {
+    "id": "kie",
+    "name": "kie-image-gen",
+    "src": null,
+    "cat": "design",
+    "icon": "🖼",
+    "own": true,
+    "used": 1,
+    "usedCmds": {
+      "kie-image-gen": 1
+    },
+    "d": "Свой скилл: генерация и правка картинок через kie.ai (nano-banana) напрямую curl-ом — без капризного MCP.",
+    "key": [
+      "kie-image-gen"
+    ]
+  },
+  {
+    "id": "anthropics",
+    "name": "Anthropic Skills",
+    "src": "anthropics/skills",
+    "cat": "content",
+    "icon": "📑",
+    "used": 2,
+    "usedCmds": {
+      "frontend-design": 1,
+      "docx": 1
+    },
+    "d": "Официальный набор Anthropic: документы (PDF, Word, Excel, PowerPoint), дизайн фронтенда, генеративный арт, тестирование веб-приложений, создание MCP и новых скиллов.",
+    "key": [
+      "docx",
+      "pdf",
+      "xlsx",
+      "pptx",
+      "frontend-design",
+      "webapp-testing",
+      "skill-creator"
+    ]
+  },
+  {
+    "id": "anthropic-skills",
+    "name": "Мои скиллы в Claude",
+    "src": null,
+    "cat": "content",
+    "icon": "✍️",
+    "own": true,
+    "used": 3,
+    "usedCmds": {
+      "storytelling-corrector": 2,
+      "antidetector": 1
+    },
+    "d": "Личные скиллы из аккаунта Claude: сторителлинг-корректор, антидетектор AI-текста, утренний брифинг, работа с памятью.",
+    "key": [
+      "storytelling-corrector",
+      "antidetector",
+      "morning",
+      "consolidate-memory"
+    ]
+  },
+  {
+    "id": "seo",
+    "name": "Claude SEO",
+    "src": "AgriciDaniel/claude-seo",
+    "cat": "growth",
+    "icon": "🔎",
+    "used": 1,
+    "usedCmds": {
+      "seo": 1
+    },
+    "d": "SEO-комбайн: полный аудит сайта, техничка и Core Web Vitals, контент и E-E-A-T, Schema.org, локальное SEO и карты, оптимизация под AI-поиск.",
+    "key": [
+      "seo",
+      "seo-audit",
+      "seo-technical",
+      "seo-content",
+      "seo-geo",
+      "seo-plan"
+    ]
+  },
+  {
+    "id": "legit",
+    "name": "legitAgent",
+    "src": "kiruxich/legitAgent",
+    "cat": "law",
+    "icon": "⚖️",
+    "own": true,
+    "d": "Свой набор: проверяет сайт и код на риски 152-ФЗ, 38-ФЗ и ЗоЗПП — формы согласия, cookie, трекеры, ERID. Объясняет правила, чинит находки, пишет черновик политики ПДн.",
+    "key": [
+      "check",
+      "scan-url",
+      "fix",
+      "generate-policy"
+    ]
+  },
+  {
+    "id": "cyber",
+    "name": "Anthropic Cybersecurity Skills",
+    "src": "mukul975/anthropic-cybersecurity-skills",
+    "cat": "security",
+    "icon": "🛡",
+    "d": "Огромный справочник по кибербезопасности: форензика, threat hunting, пентест, облака, Active Directory, SOC и реагирование на инциденты.",
+    "key": [
+      "performing-web-application-penetration-test",
+      "hunting-advanced-persistent-threats",
+      "analyzing-memory-dumps-with-volatility"
+    ]
+  },
+  {
+    "id": "replica",
+    "name": "Replica",
+    "src": "Jakeschincariol/replica-skill",
+    "cat": "dev",
+    "icon": "🧬",
+    "installed": false,
+    "d": "11 скиллов, чтобы воссоздать любое приложение с нуля: разведка экранов и флоу, стек и схема БД, дизайн-токены, сборка, бэкенд, тесты, оценка сходства с оригиналом, разбор отзывов, ребрендинг, лендинг и деплой. Clean-room: копирует функции, а не код и бренд.",
+    "key": ["replica-recon", "replica-design", "replica-build", "replica-test", "replica-diff", "replica-entrepreneur"]
+  },
+  {
+    "id": "ponytail",
+    "name": "Ponytail",
+    "src": "DietrichGebert/ponytail",
+    "cat": "dev",
+    "icon": "🦥",
+    "plugin": true,
+    "installed": false,
+    "d": "«Самый ленивый сеньор» внутри агента: прежде чем писать код, спрашивает — это вообще нужно? уже есть в проекте? умеет сама платформа? В среднем кода вдвое меньше, проверки и безопасность на месте. Режимы lite / full / ultra.",
+    "key": ["ponytail", "ponytail-review", "ponytail-audit", "ponytail-debt", "ponytail-gain"]
+  }
+];
+
+// Связки — какие наборы и в каком порядке складываются под задачу.
+export const COMBOS: Combo[] = [
+  {
+    "name": "Старт в проекте",
+    "icon": "☕",
+    "hint": "Сориентироваться за минуту, не читая весь код",
+    "steps": [
+      [
+        "claude-mem",
+        "вспомнить прошлые сессии"
+      ],
+      [
+        "graphify",
+        "карта кода"
+      ]
+    ]
+  },
+  {
+    "name": "От идеи до кода",
+    "icon": "🌱",
+    "hint": "Путь фичи от сырой мысли до работающего приложения",
+    "steps": [
+      [
+        "graphify",
+        "понять контекст"
+      ],
+      [
+        "mattpocock",
+        "допрос, спека, TDD, ревью"
+      ],
+      [
+        "claude-code",
+        "запустить и проверить"
+      ]
+    ]
+  },
+  {
+    "name": "Красивый сайт",
+    "icon": "🎨",
+    "hint": "Вкус, картинки, проверка в браузере",
+    "steps": [
+      [
+        "taste",
+        "дизайн-направление"
+      ],
+      [
+        "kie",
+        "картинки"
+      ],
+      [
+        "anthropics",
+        "вёрстка и тесты"
+      ],
+      [
+        "claude-code",
+        "запуск"
+      ]
+    ]
+  },
+  {
+    "name": "Запуск сайта в РФ",
+    "icon": "🚀",
+    "hint": "Юридически чисто и видно в поиске",
+    "steps": [
+      [
+        "legit",
+        "152-ФЗ, реклама, политика ПДн"
+      ],
+      [
+        "seo",
+        "аудит и план продвижения"
+      ]
+    ]
+  },
+  {
+    "name": "Живые тексты",
+    "icon": "📜",
+    "hint": "От сырых мыслей до статьи без следов AI",
+    "steps": [
+      [
+        "mattpocock",
+        "фрагменты → статья"
+      ],
+      [
+        "anthropic-skills",
+        "сторителлинг и антидетектор"
+      ]
+    ]
+  },
+  {
+    "name": "Бренд и визуал",
+    "icon": "✨",
+    "hint": "Айдентика и иллюстрации",
+    "steps": [
+      [
+        "taste",
+        "брендбук"
+      ],
+      [
+        "kie",
+        "генерация"
+      ],
+      [
+        "anthropics",
+        "постеры и темы"
+      ]
+    ]
+  },
+  {
+    "name": "Документы",
+    "icon": "📑",
+    "hint": "Прочитать исходники и собрать итоговый файл",
+    "steps": [
+      [
+        "anthropics",
+        "PDF, Excel, Word, слайды"
+      ],
+      [
+        "anthropic-skills",
+        "шлифовка текста"
+      ]
+    ]
+  },
+  {
+    "name": "Большая работа",
+    "icon": "🗺",
+    "hint": "Когда задача не влезает в одну сессию",
+    "steps": [
+      [
+        "mattpocock",
+        "карта решений и тикеты"
+      ],
+      [
+        "claude-mem",
+        "исполнение фазами"
+      ],
+      [
+        "graphify",
+        "актуальный граф"
+      ]
+    ]
+  },
+  {
+    "name": "Автопилот",
+    "icon": "⏰",
+    "hint": "Регулярные задачи без участия",
+    "steps": [
+      [
+        "claude-code",
+        "хуки и расписание"
+      ],
+      [
+        "claude-mem",
+        "стендапы и отчёты"
+      ]
+    ]
+  },
+  {
+    "name": "Безопасность проекта",
+    "icon": "🛡",
+    "hint": "Проверить код и инфраструктуру перед релизом",
+    "steps": [
+      [
+        "graphify",
+        "где что лежит"
+      ],
+      [
+        "cyber",
+        "аудит и харднинг"
+      ],
+      [
+        "claude-code",
+        "security-review"
+      ]
+    ]
+  },
+  {
+    "name": "Клон приложения",
+    "icon": "🧬",
+    "hint": "Разобрать чужое приложение и собрать своё, лучше оригинала",
+    "steps": [["replica", "разведка, дизайн, сборка, тесты"], ["ponytail", "резать лишний код"], ["claude-code", "запуск и проверка"]]
+  }
+];
