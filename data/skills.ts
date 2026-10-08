@@ -267,7 +267,6 @@ export const PACKS: Pack[] = [
     "src": "Jakeschincariol/replica-skill",
     "cat": "dev",
     "icon": "🧬",
-    "installed": false,
     "d": "11 скиллов, чтобы воссоздать любое приложение с нуля: разведка экранов и флоу, стек и схема БД, дизайн-токены, сборка, бэкенд, тесты, оценка сходства с оригиналом, разбор отзывов, ребрендинг, лендинг и деплой. Clean-room: копирует функции, а не код и бренд.",
     "key": ["replica-recon", "replica-design", "replica-build", "replica-test", "replica-diff", "replica-entrepreneur"]
   },
