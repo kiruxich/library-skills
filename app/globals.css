@@ -38,12 +38,14 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  background-image: radial-gradient(1200px 500px at 85% -10%, var(--glow), transparent 60%),
-                    radial-gradient(900px 400px at -10% 20%, var(--glow), transparent 60%);
-  background-attachment: fixed;
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    background-image: radial-gradient(1200px 500px at 85% -10%, var(--glow), transparent 60%),
+                      radial-gradient(900px 400px at -10% 20%, var(--glow), transparent 60%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -.01em; }
 }
-h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -.01em; }
