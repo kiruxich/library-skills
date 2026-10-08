@@ -43,7 +43,7 @@ export const COMPONENTS: ComponentMeta[] = [
     tags: ["код доступа", "OTP", "частицы"],
     deps: ["motion"],
     stage: "dark",
-    ref: [{ label: "@_code_and_chill_", url: "https://www.instagram.com/reel/DbavLeDTP5H/" }],
+    ref: [{ label: "@code.xr", url: "https://www.instagram.com/reel/DbavLeDTP5H/" }],
     addedAt: "2026-10-08",
   },
   {
