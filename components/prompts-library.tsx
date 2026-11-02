@@ -79,12 +79,10 @@ function Viewer({ p, onClose, onEdit, onDelete }: { p: Prompt | Local; onClose: 
   const local = "local" in p;
   return (
     <Modal open onClose={onClose} wide>
-      <span className="text-[13px] font-bold text-muted">
-        {p.tags.map((t) => `#${t}`).join(" ")}{p.source ? ` · ${p.source}` : ""} · {local ? "в этом браузере" : "в репозитории"}
-      </span>
-      <h3 className="mt-2 mb-3 text-[24px] leading-tight font-bold">{p.title}</h3>
-      {p.description && <p className="text-muted">{p.description}</p>}
-      <div className="my-4 flex flex-wrap gap-2">
+      <h3 className="mb-3 pr-20 text-[24px] leading-tight font-bold">{p.title}</h3>
+      {p.description && <p className="text-muted">{p.description.split(/[:.!?]/)[0]}.</p>}
+      <div className="my-4 flex flex-wrap items-center justify-between gap-2">
+        {p.steps && <span className="rounded-xl bg-bg2 px-3 py-1.5 text-sm font-bold">{p.steps.length} {plural(p.steps.length, "шаг", "шага", "шагов")}</span>}
         <CopyButton text={fullText(p)} label={p.steps ? "Копировать все шаги" : "Копировать промпт"} />
         {local && (
           <>
@@ -96,13 +94,18 @@ function Viewer({ p, onClose, onEdit, onDelete }: { p: Prompt | Local; onClose: 
       {p.steps ? (
         <ol className="flex flex-col gap-3">
           {p.steps.map((s, i) => (
-            <li key={i} className="rounded-2xl border border-line bg-bg p-4">
-              <div className="mb-1 flex items-start justify-between gap-3">
-                <b className="font-serif text-lg">{i + 1}/ {s.title}</b>
-                <CopyButton text={s.text} />
-              </div>
-              {s.hint && <p className="mb-2 text-sm text-muted">{s.hint}</p>}
-              <p className="text-[15px] whitespace-pre-wrap">{s.text}</p>
+            <li key={i}>
+              <details open={i === 0 ? true : undefined} className="group rounded-2xl border border-line bg-bg">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
+                  <b className="font-serif text-lg">{i + 1}/ {s.title}</b>
+                  <span aria-hidden="true" className="text-muted transition-transform group-open:rotate-180">⌄</span>
+                </summary>
+                <div className="px-4 pb-4">
+                  {s.hint && <p className="mb-2 text-sm text-muted">{s.hint}</p>}
+                  <p className="text-[15px] whitespace-pre-wrap">{s.text}</p>
+                  <CopyButton text={s.text} className="mt-4" />
+                </div>
+              </details>
             </li>
           ))}
         </ol>

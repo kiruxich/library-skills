@@ -69,7 +69,9 @@ function PackModal({ id, onClose, onOpen }: { id: string | null; onClose: () => 
           <CopyButton text={install} />
         </div>
       )}
-      <h4 className="mt-4.5 mb-2 text-sm font-bold text-muted">Команды внутри · {cmds.length}</h4>
+      <details key={p.id} className="mt-4.5">
+        <summary className="cursor-pointer text-sm font-bold text-muted">Команды внутри · {cmds.length}</summary>
+        <div className="mt-3">
       {cmds.length > 30 && (
         <input className="mb-2.5 w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 outline-none focus:border-accent" placeholder="Поиск по командам…" value={q} onChange={(e) => setQ(e.target.value.trim().toLowerCase())} />
       )}
@@ -80,6 +82,8 @@ function PackModal({ id, onClose, onOpen }: { id: string | null; onClose: () => 
           </span>
         ))}
       </div>
+        </div>
+      </details>
       {combos.length > 0 && (
         <>
           <h4 className="mt-4.5 mb-2 text-sm font-bold text-muted">Входит в связки</h4>
@@ -173,29 +177,18 @@ export function SkillsLibrary() {
         {list.length ? (
           <div className="grid gap-4 md:grid-cols-[repeat(auto-fill,minmax(330px,1fr))]">
             {list.map((p) => {
-              const n = cmdsOf(p).length, c = catById[p.cat], k = combosOf(p.id).length;
+              const n = cmdsOf(p).length, c = catById[p.cat];
               return (
-                <button key={p.id} onClick={() => setOpen(p.id)} className={`${card} flex cursor-pointer flex-col gap-2.5 p-5 text-left transition hover:-translate-y-[3px] hover:border-accent/45`}>
+                <button key={p.id} onClick={() => setOpen(p.id)} className={`${card} flex cursor-pointer flex-col p-5 text-left transition hover:-translate-y-[3px] hover:border-accent/45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}>
                   <div className="flex items-center gap-3">
                     <span className="grid size-[46px] flex-none place-items-center rounded-[14px] bg-bg2 text-[22px]">{p.icon}</span>
-                    <div>
-                      <h3 className="text-[21px] leading-tight">{p.name}</h3>
-                      <div className="font-mono text-[12.5px] text-muted">{p.src || origin(p)}</div>
-                    </div>
+                    <h3 className="min-w-0 flex-1 text-[21px] leading-tight">{p.name}</h3>
+                    <span aria-hidden="true" className="text-xl text-muted">→</span>
                   </div>
-                  <div className="text-[14.5px] text-muted">{p.d}</div>
-                  <div className="flex flex-wrap gap-[5px]">
-                    {p.key.slice(0, 5).map((x) => (
-                      <span key={x} className="rounded-lg border border-line bg-bg px-2 py-[3px] font-mono text-xs font-semibold">/{x}</span>
-                    ))}
-                    {n > 5 && <span className="rounded-lg border border-line bg-bg px-2 py-[3px] font-mono text-xs font-semibold">+{n - Math.min(5, p.key.length)}</span>}
-                  </div>
-                  <div className="mt-auto flex flex-wrap gap-1.5 text-xs font-bold">
-                    <span className="rounded-full bg-bg2 px-2.5 py-1 text-muted">{c.emoji} {c.name}</span>
-                    <span className="rounded-full bg-bg2 px-2.5 py-1 text-muted">{n} {plural(n, "команда", "команды", "команд")}</span>
-                    {k > 0 && <span className="rounded-full bg-bg2 px-2.5 py-1 text-muted">🔗 {k} {plural(k, "связка", "связки", "связок")}</span>}
-                    {p.used ? <span className="rounded-full bg-accent-soft px-2.5 py-1 text-accent">★ {p.used}× в работе</span> : null}
-                    {p.installed === false && <span className="rounded-full border border-dashed border-line px-2.5 py-1 text-muted">не установлен</span>}
+                  <p className="mt-4 mb-5 line-clamp-2 text-[14.5px] text-muted">{p.d}</p>
+                  <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line pt-3 text-xs font-semibold text-muted">
+                    <span>{c.emoji} {c.name}</span>
+                    <span>{n} {plural(n, "команда", "команды", "команд")}</span>
                   </div>
                 </button>
               );

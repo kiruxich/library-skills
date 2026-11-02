@@ -28,14 +28,11 @@ export function ComponentsGallery({ sources }: { sources: Record<string, string>
 
   return (
     <>
-      <div className="grid items-end gap-6 pt-6 pb-8 md:grid-cols-[1.3fr_1fr] md:gap-10 md:pt-12">
-        <div>
-          <h1 className="text-[clamp(40px,6vw,68px)] leading-[1.02]">Компоненты, которые <em className="text-accent">хочется</em> трогать</h1>
-          <p className="mt-4.5 max-w-[560px] text-lg text-muted">Интерфейсные находки из ленты, пересобранные на Next.js · React · TypeScript · Tailwind. Живое превью и код, готовый к копированию.</p>
-        </div>
-        <div className="rounded-[20px] border border-line bg-surface px-5 py-4.5 shadow-warm">
-          <b className="block font-serif text-[34px] leading-tight text-accent">{COMPONENTS.length}</b>
-          <small className="font-semibold text-muted">{plural(COMPONENTS.length, "компонент", "компонента", "компонентов")} · стек: Next.js, TS, Tailwind, Motion</small>
+      <div className="max-w-[960px] pt-6 pb-8 md:pt-12 md:pb-10">
+        <h1 className="text-[clamp(40px,6vw,68px)] leading-[1.02]">Компоненты, которые <em className="text-accent">хочется</em> трогать</h1>
+        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-muted">
+          <p className="text-lg">Живые превью и код, готовый к копированию.</p>
+          <span className="text-sm font-semibold">{COMPONENTS.length} {plural(COMPONENTS.length, "компонент", "компонента", "компонентов")}</span>
         </div>
       </div>
 
@@ -57,13 +54,7 @@ export function ComponentsGallery({ sources }: { sources: Record<string, string>
           <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
             <div className="max-w-[620px]">
               <h2 className="text-[26px] leading-tight">{meta.title}</h2>
-              <p className="mt-1 text-[14.5px] text-muted">{meta.description}</p>
-              <div className="mt-2 flex flex-wrap gap-1.5 text-xs font-bold">
-                {meta.deps.map((d) => <span key={d} className="rounded-full bg-bg2 px-2.5 py-1 font-mono text-muted">npm i {d}</span>)}
-                {meta.ref?.map((r) => (
-                  <a key={r.url} href={r.url} target="_blank" rel="noopener" className="rounded-full bg-accent-soft px-2.5 py-1 text-accent no-underline">референс {r.label} ↗</a>
-                ))}
-              </div>
+
             </div>
             <div className="flex items-center gap-2">
               <div className="flex rounded-full border border-line bg-bg p-1">
