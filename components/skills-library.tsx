@@ -199,9 +199,7 @@ export function SkillsLibrary() {
         )}
       </section>
 
-      <footer className="pt-10 pb-15 text-center text-sm text-muted">
-        Собрано из <code className="font-mono">~/.agents/.skill-lock.json</code>, <code className="font-mono">~/.claude/skills</code> и плагинов · ставятся через <code className="font-mono">npx skills add автор/репо</code>
-      </footer>
+
 
       <PackModal key={open} id={open} onClose={() => setOpen(null)} onOpen={setOpen} />
     </>

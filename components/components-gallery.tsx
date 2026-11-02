@@ -28,11 +28,14 @@ export function ComponentsGallery({ sources }: { sources: Record<string, string>
 
   return (
     <>
-      <div className="max-w-[960px] pt-6 pb-8 md:pt-12 md:pb-10">
-        <h1 className="text-[clamp(40px,6vw,68px)] leading-[1.02]">Компоненты, которые <em className="text-accent">хочется</em> трогать</h1>
-        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-muted">
-          <p className="text-lg">Живые превью и код, готовый к копированию.</p>
-          <span className="text-sm font-semibold">{COMPONENTS.length} {plural(COMPONENTS.length, "компонент", "компонента", "компонентов")}</span>
+      <div className="flex flex-col gap-6 pt-6 pb-8 sm:flex-row sm:items-end sm:justify-between md:pt-12 md:pb-10">
+        <div className="max-w-[960px]">
+          <h1 className="text-[clamp(40px,6vw,68px)] leading-[1.02]">Компоненты, которые <em className="text-accent">хочется</em> трогать</h1>
+          <p className="mt-5 text-lg text-muted">Живые превью и код, готовый к копированию.</p>
+        </div>
+        <div className="flex w-fit min-w-[160px] items-baseline gap-3 rounded-[20px] border border-line bg-surface px-5 py-3 shadow-warm sm:shrink-0">
+          <span className="font-serif text-[42px] leading-none text-accent">{COMPONENTS.length}</span>
+          <span className="text-sm font-semibold text-muted">{plural(COMPONENTS.length, "компонент", "компонента", "компонентов")}</span>
         </div>
       </div>
 
