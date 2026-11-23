@@ -2,7 +2,26 @@
 
 import { useId, useState, type FormEvent } from "react";
 
+const PASSWORD_REPLIES = [
+  "Свет верни, алё!",
+  "Я всё слышу.",
+  "Шуршит как семечки.",
+  "Кто выключил солнце?",
+  "Клюв на замке.",
+  "Я вообще сплю.",
+  "У меня алиби.",
+  "Глаза закрыты. Оба.",
+  "Пледу виднее.",
+  "Тут темно, но уютно.",
+  "Мне положена семечка.",
+  "Я не подсматриваю. Честно.",
+];
+
 function Parrot({ covered, watching }: { covered: boolean; watching: boolean }) {
+  const blanketPosition = covered
+    ? "translate-none rotate-0 opacity-100 duration-[260ms]"
+    : "translate-x-14 translate-y-16 rotate-[70deg] opacity-0 [transition-duration:420ms,420ms,230ms] [transition-delay:0ms,0ms,160ms]";
+
   return (
     <div className="absolute top-1 right-0 h-[148px] w-[112px] drop-shadow-[0_5px_5px_#49362330]">
       {/* Tail and feet sit behind the body and stay visible under the scarf. */}
@@ -29,7 +48,7 @@ function Parrot({ covered, watching }: { covered: boolean; watching: boolean }) 
       </div>
 
       <div
-        className={`absolute top-[10px] left-[12px] h-[95px] w-[88px] origin-[70%_25%] transition-[translate,rotate,opacity] duration-300 motion-reduce:transition-none ${covered ? "translate-y-0 rotate-0 opacity-100" : "-translate-y-9 rotate-[24deg] opacity-0"}`}
+        className={`absolute top-[10px] left-[12px] h-[95px] w-[88px] origin-[70%_25%] transition-[translate,rotate,opacity] ease-out motion-reduce:transition-none ${blanketPosition}`}
       >
         <span className="absolute inset-0 bg-[linear-gradient(115deg,#397d70,#225e54_48%,#15463e)] [clip-path:polygon(28%_3%,43%_0,62%_5%,75%_17%,81%_33%,92%_62%,100%_89%,87%_96%,67%_93%,48%_100%,21%_93%,0_82%,10%_56%,13%_34%,19%_14%)]">
           <span className="absolute inset-0 bg-[radial-gradient(circle,#e2dba2_1px,transparent_1.5px)] bg-size-[8px_8px] opacity-60" />
@@ -44,17 +63,20 @@ export default function ParrotLogin() {
   const id = useId();
   const [login, setLogin] = useState("");
   const [field, setField] = useState<"login" | "password" | null>(null);
+  const [reply, setReply] = useState(-1);
   const [complete, setComplete] = useState(false);
+  const covered = field === "password" && !complete;
 
   let message = "Кар-р, привет!";
   if (field === "login") message = login.trim() || "Как тебя зовут?";
-  if (field === "password") message = "Я не смотрю!";
+  if (covered) message = PASSWORD_REPLIES[reply] ?? "Я не смотрю!";
   if (complete) message = "Кар-р, готово!";
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     event.currentTarget.reset();
     setLogin("");
+    setReply(-1);
     setComplete(true);
   }
 
@@ -64,9 +86,9 @@ export default function ParrotLogin() {
     <div className="relative w-full min-w-0 max-w-[350px] pt-[110px] font-sans text-[#2a2623] [color-scheme:light]">
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[148px]">
         <div className="absolute top-[30px] right-[101px] max-w-[calc(100%-109px)] rounded-[16px_16px_4px_16px] border border-[#d8cbb8] bg-[#fff9ed] px-3 py-2 text-sm font-semibold shadow-[0_3px_9px_#4e3a2112]">
-          <p className="truncate">{message}</p>
+          <p className={field === "login" && !complete ? "truncate" : "text-pretty"}>{message}</p>
         </div>
-        <Parrot covered={field === "password"} watching={field === "login"} />
+        <Parrot covered={covered} watching={field === "login" && !complete} />
       </div>
 
       <form
@@ -98,8 +120,12 @@ export default function ParrotLogin() {
         <input
           id={`${id}-password`}
           type="password"
-          onFocus={() => setField("password")}
+          onFocus={() => {
+            setField("password");
+            setReply(-1);
+          }}
           onBlur={() => setField(null)}
+          onChange={() => setReply((current) => (current + 1) % PASSWORD_REPLIES.length)}
           autoComplete="new-password"
           placeholder="Минимум 4 символа"
           minLength={4}
