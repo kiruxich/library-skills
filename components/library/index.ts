@@ -4,6 +4,7 @@ import CardCheckout from "./card-checkout";
 import LampLogin from "./lamp-login";
 import OtpBurst from "./otp-burst";
 import OtpOrbit from "./otp-orbit";
+import ParrotLogin from "./parrot-login";
 import RunawayLogin from "./runaway-login";
 import ScannerTestimonials from "./scanner-testimonials";
 
@@ -15,4 +16,5 @@ export const LIBRARY: Record<string, ComponentType> = {
   "runaway-login": RunawayLogin,
   "lamp-login": LampLogin,
   "scanner-testimonials": ScannerTestimonials,
+  "parrot-login": ParrotLogin,
 };

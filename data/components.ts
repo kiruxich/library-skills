@@ -89,4 +89,15 @@ export const COMPONENTS: ComponentMeta[] = [
     ref: [{ label: "georgiirivera.ai", url: "https://georgiirivera.ai/#projects" }],
     addedAt: "2026-10-08",
   },
+  {
+    slug: "parrot-login",
+    title: "Parrot Login",
+    description: "Попугай повторяет логин и прячется под платком, когда фокус переходит на поле пароля. Форма имитирует вход без отправки данных.",
+    file: "parrot-login.tsx",
+    tags: ["логин", "форма", "анимация"],
+    deps: [],
+    stage: "light",
+    ref: [{ label: "@devo6o6", url: "https://www.instagram.com/p/DfKDhR8zWC2/" }],
+    addedAt: "2026-11-23",
+  },
 ];
